@@ -26,10 +26,6 @@ def main(args):
         'thickness': 4}
 
     # Make list to store individual square colors
-    # HINT: If the user entered an initial state via command line argument, you
-    # should modify this code so that the current_state is *not* the solved
-    # cube, but rather the colors of the initial state.
-    # ***MODIFY CODE HERE*** (7 lines)
     args = parser.parse_args()
     current_state = []
     if args.state:
@@ -41,7 +37,6 @@ def main(args):
     	for i in range(6):
            current_state += [i] * params['n'] ** 2
 
-    # ***DO NOT MODIFY THE FOLLOWING 2 LINES***
     initial_state = current_state.copy()  # for resetting the cube
     previous_state = current_state.copy()  # for undoing user actions
 
@@ -114,6 +109,7 @@ def main(args):
                     # resest the current state to simulated state of path
                     current_state = simulate(current_state, path)
                     try:
+                        #send found path to the arduino IDE
                         ser = serial.Serial('COM4', 9600)  # Open the serial port
                         time.sleep(2)
                         string_path = '{}\n'.format(path)
@@ -125,6 +121,7 @@ def main(args):
                         print(f"Serial Exception: {e}")
                 else:
                     print("The cube is either already solved or you need to run A* search")
+            #Type z to prescramble the cube
             elif key == 'z':
                 #Get custom random path
                 unsolved_state_path = ""
